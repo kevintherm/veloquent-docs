@@ -34,7 +34,7 @@
             <div class="bg-blue-500/10 p-4 relative">
                 <img src="{{ asset('assets/dashboard.png') }}" alt="VeloquentDashboard" class="w-full brutalist-border">
                 <div class="absolute bottom-8 right-8 bg-white p-4 brutalist-border">
-                    <a href="/" class="mono text-base font-bold tracking-widest uppercase">Try Demo</a>
+                    <a href="https://demo.velophp.com" class="mono text-base font-bold tracking-widest uppercase">Try Demo</a>
                 </div>
             </div>
         </div>
