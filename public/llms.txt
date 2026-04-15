@@ -1,0 +1,24 @@
+# Veloquent
+
+Veloquent is an open-source Backend as a Service (BaaS) built on top of Laravel. It leverages the robust Laravel ecosystem and PHP's widespread hostability to simplify the development of modern web and mobile applications. Veloquent handles the database, authentication, file storage, and real-time needs out of the box, allowing developers to focus on building their product.
+
+## Core Philosophy
+
+- **Fast & Hostable**: Built with Laravel for maximum performance and easy deployment on any PHP environment.
+- **Flexible Data Structures**: Define and manage your data with dynamic collections and fields without manual migration management.
+- **Secure by Default**: Granular access control using a powerful expression-based rule engine.
+- **Real-time & Reactive**: Native support for real-time updates using the Pusher protocol via Laravel Reverb.
+
+## Key Features
+
+- **Dynamic Collections**: Manage your database schema through a simple UI or API.
+- **Rich Field Types**: Support for Text, Number, Boolean, Datetime, Email, Relations, and more.
+- **Expression-based Rules**: Secure your data with human-readable rules for row-level security.
+- **User Authentication**: Built-in support for standard and OAuth flows via Laravel Fortify.
+- **Full-text Search**: Integrated searching capabilities powered by Laravel Scout.
+- **File Storage**: Seamless file uploads and management.
+- **Admin Dashboard**: A powerful, ready-to-use interface to manage your collections and records.
+
+## Documentation
+
+- [Full Documentation](llms-full.txt) - A comprehensive, single-file version of the entire documentation for the latest release.
