@@ -4,6 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Documentation' }} - {{ config('app.name', 'Veloquent') }}</title>
+
+    @isset($description)
+        <meta name="description" content="{{ $description }}">
+    @endisset
+    <meta name="keywords" content="Laravel, BaaS, Backend as a Service, PHP, Open Source, Realtime Database, Authentication, {{ $title ?? '' }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ $canonicalUrl ?? url()->current() }}">
+    <meta property="og:title" content="{{ $title ?? 'Documentation' }} - Veloquent">
+    <meta property="og:description" content="{{ $description ?? 'Veloquent is an open-source Backend as a Service (BaaS) built on top of Laravel.' }}">
+    <meta property="og:image" content="{{ asset('social-preview.png') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ $canonicalUrl ?? url()->current() }}">
+    <meta property="twitter:title" content="{{ $title ?? 'Documentation' }} - Veloquent">
+    <meta property="twitter:description" content="{{ $description ?? 'Veloquent is an open-source Backend as a Service (BaaS) built on top of Laravel.' }}">
+    <meta property="twitter:image" content="{{ asset('social-preview.png') }}">
+
+    <link rel="canonical" href="{{ $canonicalUrl ?? url()->current() }}">
+    @if(!($isLatest ?? true) || isset($search_results))
+        <meta name="robots" content="noindex, follow">
+    @endif
+
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@@type": "ListItem",
+            "position": 1,
+            "name": "Docs",
+            "item": "{{ route('docs.home') }}"
+        }
+        @isset($version)
+        ,{
+            "@@type": "ListItem",
+            "position": 2,
+            "name": "{{ $version }}",
+            "item": "{{ url(config('docs.path', 'docs') . '/' . $version) }}"
+        }
+        @endisset
+        @isset($title)
+        ,{
+            "@@type": "ListItem",
+            "position": 3,
+            "name": "{{ $title }}",
+            "item": "{{ url()->current() }}"
+        }
+        @endisset
+        ]
+    }
+    </script>
+
+    @isset($doc)
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "TechArticle",
+        "headline": "{{ $title }}",
+        "description": "{{ $description ?? '' }}",
+        "author": {
+            "@@type": "Organization",
+            "name": "Veloquent"
+        },
+        "publisher": {
+            "@@type": "Organization",
+            "name": "Veloquent",
+            "logo": {
+                "@@type": "ImageObject",
+                "url": "{{ asset('logo.svg') }}"
+            }
+        },
+        "mainEntityOfPage": {
+            "@@type": "WebPage",
+            "@@id": "{{ url()->current() }}"
+        }
+    }
+    </script>
+    @endisset
+
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">

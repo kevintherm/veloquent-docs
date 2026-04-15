@@ -268,4 +268,24 @@ class DocsManager
     {
         return Str::headline(str_replace('-', ' ', $value));
     }
+
+    /**
+     * Get the latest stable (non-dev) version.
+     */
+    public function getLatestStableVersion(): ?string
+    {
+        return $this->getAvailableVersions()
+            ->filter(fn ($v) => ! str_starts_with($v, 'dev-'))
+            ->first();
+    }
+
+    /**
+     * Generate a meta description from content.
+     */
+    public function generateDescription(string $content, int $limit = 160): string
+    {
+        $stripped = $this->stripMarkdown($content);
+
+        return Str::limit($stripped, $limit);
+    }
 }

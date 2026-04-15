@@ -42,9 +42,17 @@ class DocumentationController extends Controller
 
         $sidebarCategories = $this->docsManager->getSidebar($version);
 
+        $latestStable = $this->docsManager->getLatestStableVersion();
+        $isLatest = $version === $latestStable;
+
+        $seoDescription = $this->docsManager->generateDescription($doc->content);
+        $canonicalFile = str_replace($version.'/', '', $doc->slug);
+        $canonicalUrl = route('docs.show', ['version' => $latestStable, 'file' => $canonicalFile]);
+
         return view('docs.viewer', [
             'content' => $htmlContent,
             'title' => $doc->title,
+            'description' => $seoDescription,
             'activeFile' => $file,
             'version' => $version,
             'availableVersions' => $availableVersions,
@@ -52,6 +60,8 @@ class DocumentationController extends Controller
             'headingAnchor' => $headingAnchor,
             'currentPath' => $file,
             'doc' => $doc,
+            'canonicalUrl' => $canonicalUrl,
+            'isLatest' => $isLatest,
         ]);
     }
 

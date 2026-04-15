@@ -5,6 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Veloquent - The Open Source Laravel Backend' }}</title>
+    
+    <meta name="description" content="{{ $description ?? 'Veloquent is an open-source Backend as a Service (BaaS) built on top of Laravel, simplifying the development of modern web and mobile applications.' }}">
+    <meta name="keywords" content="Laravel, BaaS, Backend as a Service, PHP, Open Source, Realtime Database, Authentication, API Rules">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{{ $ogType ?? 'website' }}">
+    <meta property="og:url" content="{{ $canonicalUrl ?? url()->current() }}">
+    <meta property="og:title" content="{{ $title ?? 'Veloquent - The Open Source Laravel Backend' }}">
+    <meta property="og:description" content="{{ $description ?? 'Veloquent is an open-source Backend as a Service (BaaS) built on top of Laravel.' }}">
+    <meta property="og:image" content="{{ asset('social-preview.png') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ $canonicalUrl ?? url()->current() }}">
+    <meta property="twitter:title" content="{{ $title ?? 'Veloquent - The Open Source Laravel Backend' }}">
+    <meta property="twitter:description" content="{{ $description ?? 'Veloquent is an open-source Backend as a Service (BaaS) built on top of Laravel.' }}">
+    <meta property="twitter:image" content="{{ asset('social-preview.png') }}">
+
+    <link rel="canonical" href="{{ $canonicalUrl ?? url()->current() }}">
+    @if($noindex ?? false)
+        <meta name="robots" content="noindex, follow">
+    @endif
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
     <link rel="stylesheet"
