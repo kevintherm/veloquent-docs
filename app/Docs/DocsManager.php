@@ -16,6 +16,15 @@ use League\CommonMark\MarkdownConverter;
 class DocsManager
 {
     /**
+     * Remove .md extensions from links in HTML content.
+     * Allows .md to only be used when explicitly requested via query parameter or file extension.
+     */
+    public function removeMarkdownExtensionsFromLinks(string $html): string
+    {
+        return preg_replace('/(href=["\'](?:[^"\']*))\.md(["\'])/i', '$1$2', $html);
+    }
+
+    /**
      * Get the markdown converter instance.
      */
     public function getConverter(): MarkdownConverter
@@ -165,13 +174,15 @@ class DocsManager
             : 'doc_search_'.Str::slug($query);
 
         $results = Cache::remember($cacheKey, now()->addWeek(), function () use ($query, $version) {
-            $builder = Doc::search($query);
+            $docs = Doc::search($query)->take(10)->get();
 
+            // Filter by version in PHP instead of using Scout's where()
+            // to avoid Algolia filter syntax issues
             if ($version) {
-                $builder = $builder->where('version', $version);
+                $docs = $docs->filter(fn (Doc $doc) => $doc->version === $version);
             }
 
-            return $builder->take(10)->get()->map(function (Doc $doc) use ($query) {
+            return $docs->map(function (Doc $doc) use ($query) {
                 $cleanedContent = $this->stripMarkdown($doc->content);
                 $snippet = $this->extractHighlightedSnippet($cleanedContent, $query);
 
@@ -181,7 +192,7 @@ class DocsManager
                     'version' => $doc->version,
                     'snippet' => $snippet,
                 ];
-            });
+            })->toArray();
         });
 
         return collect($results);

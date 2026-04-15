@@ -25,6 +25,19 @@ Route::prefix($path)->group(function () use ($path) {
         ->name('docs.search')
         ->middleware('throttle:search');
 
+    Route::get('/{section}', function ($section) use ($path) {
+        $match = Doc::distinct('version')
+            ->orderByDesc('version')
+            ->where('slug', 'like', "%{$section}%")
+            ->first();
+
+        if (! $match) {
+            return redirect()->back();
+        }
+
+        return redirect("{$path}/{$match->slug}");
+    })->where('section', '^(?!search$)[a-z\-]+$')->name('docs.shortcut');
+
     // Versioned docs routes
     Route::prefix('{version}')->group(function () use ($path) {
         // Version home redirect

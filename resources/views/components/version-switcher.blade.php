@@ -1,6 +1,23 @@
 @php
-$releaseVersions = $availableVersions->filter(fn ($v) => ! str_starts_with($v, 'dev-'));
-$devVersions = $availableVersions->filter(fn ($v) => str_starts_with($v, 'dev-'));
+    $releaseVersions = $availableVersions->filter(fn ($v) => ! str_starts_with($v, 'dev-'));
+    $devVersions = $availableVersions->filter(fn ($v) => str_starts_with($v, 'dev-'));
+    
+    $buildVersionUrl = function($newVersion) use ($currentPath, $version, $headingAnchor) {
+        $docsPath = config('docs.path', 'docs');
+        
+        if (!empty($currentPath)) {
+            $url = "/{$docsPath}/{$newVersion}/{$currentPath}";
+            if ($headingAnchor) {
+                $url .= "?heading={$headingAnchor}";
+            }
+            return $url;
+        }
+        
+        $query = request()->query();
+        $query['version'] = $newVersion;
+        $queryString = http_build_query($query);
+        return route('docs.search') . ($queryString ? "?{$queryString}" : '');
+    };
 @endphp
 
 <div class="flex items-center gap-2" x-data="{ open: false }">
@@ -19,6 +36,7 @@ $devVersions = $availableVersions->filter(fn ($v) => str_starts_with($v, 'dev-')
 
         <div
             x-show="open"
+            x-cloak
             @click.outside="open = false"
             class="absolute top-full left-0 mt-1 bg-white border-2 border-black shadow-lg z-50 min-w-max"
         >
@@ -28,11 +46,7 @@ $devVersions = $availableVersions->filter(fn ($v) => str_starts_with($v, 'dev-')
                 </div>
                 @foreach($releaseVersions as $v)
                     <a
-                        href="{{ str_replace(
-                            isset($currentPath) ? $version : '',
-                            $v,
-                            request()->path()
-                        ) }}{{ isset($headingAnchor) && $headingAnchor ? '?heading=' . $headingAnchor : '' }}"
+                        href="{{ $buildVersionUrl($v) }}"
                         :click="open = false"
                         class="block px-4 py-3 hover:bg-blue-50 font-bold uppercase tracking-tight text-sm transition-colors border-b border-black/5 last:border-b-0
                         {{ $version === $v ? 'bg-blue-100 text-blue-900' : 'text-black' }}"
@@ -48,11 +62,7 @@ $devVersions = $availableVersions->filter(fn ($v) => str_starts_with($v, 'dev-')
                 </div>
                 @foreach($devVersions as $v)
                     <a
-                        href="{{ str_replace(
-                            isset($currentPath) ? $version : '',
-                            $v,
-                            request()->path()
-                        ) }}{{ isset($headingAnchor) && $headingAnchor ? '?heading=' . $headingAnchor : '' }}"
+                        href="{{ $buildVersionUrl($v) }}"
                         :click="open = false"
                         class="block px-4 py-3 hover:bg-blue-50 font-bold uppercase tracking-tight text-sm transition-colors border-b border-black/5 last:border-b-0 italic
                         {{ $version === $v ? 'bg-blue-100 text-blue-900' : 'text-black' }}"

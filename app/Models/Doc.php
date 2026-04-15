@@ -30,8 +30,8 @@ class Doc extends Model
         return [
             'version' => $this->version,
             'title' => $this->title,
+            'content' => $this->searchable_content,
             'headings' => $this->headings,
-            'searchable_content' => $this->searchable_content,
             'slug' => $this->slug,
         ];
     }

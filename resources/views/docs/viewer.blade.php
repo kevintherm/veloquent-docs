@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif;background-color: #ffffff;background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.08) 1.5px, transparent 0);background-size: 25px 25px;color: #000;}
 

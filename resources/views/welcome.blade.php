@@ -142,7 +142,7 @@
                     Deploy your own BaaS in minutes. Own whats yours.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-8">
-                    <a href="https://github.com/kevintherm/veloquent" target="_blank"
+                    <a href="{{ route('docs.shortcut', 'quickstart') }}"
                         class="brutalist-button bg-black text-white text-2xl px-12 py-6">
                         GET STARTED
                     </a>

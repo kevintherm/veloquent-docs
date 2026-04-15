@@ -124,7 +124,7 @@ return [
             // ],
             Doc::class => [
                 'searchableAttributes' => ['title', 'content', 'headings'],
-                'attributesForFaceting'=> ['filterOnly(slug)'],
+                'attributesForFaceting' => ['filterOnly(version)', 'filterOnly(slug)'],
             ],
         ],
     ],
