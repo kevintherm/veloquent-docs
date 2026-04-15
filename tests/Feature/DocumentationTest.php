@@ -114,6 +114,13 @@ class DocumentationTest extends TestCase
         $response->assertRedirect('/docs/1.x/getting-started/introduction');
     }
 
+    public function test_docs_home_returns_404_when_empty()
+    {
+        $response = $this->get('/docs/');
+
+        $response->assertStatus(404);
+    }
+
     public function test_raw_markdown_response()
     {
         $this->createSampleDocs();

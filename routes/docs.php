@@ -14,7 +14,7 @@ Route::prefix($path)->group(function () use ($path) {
             ->first()?->version;
 
         if (! $latestVersion) {
-            return redirect("{$path}/");
+            abort(404);
         }
 
         return redirect("{$path}/{$latestVersion}/getting-started/introduction");
