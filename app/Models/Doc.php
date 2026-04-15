@@ -10,10 +10,12 @@ class Doc extends Model
     use Searchable;
 
     protected $fillable = [
+        'version',
         'title',
         'slug',
         'content',
-        'headings'
+        'searchable_content',
+        'headings',
     ];
 
     public function casts(): array
@@ -26,10 +28,16 @@ class Doc extends Model
     public function toSearchableArray()
     {
         return [
+            'version' => $this->version,
             'title' => $this->title,
             'headings' => $this->headings,
-            'content' => $this->content,
+            'searchable_content' => $this->searchable_content,
             'slug' => $this->slug,
         ];
+    }
+
+    public function scopeForVersion($query, $version)
+    {
+        return $query->where('version', $version);
     }
 }

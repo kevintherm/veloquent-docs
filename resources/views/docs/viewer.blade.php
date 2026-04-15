@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" x-cloak>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Documentation' }} - Velo</title>
+    <title>{{ $title ?? 'Documentation' }} - {{ config('app.name', 'Veloquent') }}</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
@@ -65,52 +66,64 @@
 <body class="min-h-screen flex flex-col md:flex-row scroll-smooth">
     <!-- Mobile Nav Toggle -->
     <div class="md:hidden p-6 bg-white border-b-8 border-black sticky top-0 z-50 flex justify-between items-center">
-        <a href="/docs"><img src="/docs/logo.svg" alt="Velo" class="h-10"></a>
+        <a href="/docs"><img src="/logo.svg" alt="Velo" class="h-10"></a>
         <button id="menu-toggle" class="px-6 py-3 bg-blue-500 text-white font-black border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all">MENU</button>
     </div>
 
     <!-- Sidebar -->
     <aside id="sidebar" class="hidden md:block w-full md:w-96 border-r-4 border-black/5 shrink-0 sticky top-0 h-screen overflow-y-auto z-40">
         <div class="px-12 py-16 flex justify-center bg-blue-500 border-b-8 border-black">
-            <a href="/{{ config('docs.path', 'docs') }}">
+            <a href="/{{ config('docs.path', 'docs') }}/{{ $version ?? '' }}">
                 <div class="bg-white p-6 border-4">
-                    <img src="/{{ config('docs.path', 'docs') }}/logo.svg" alt="VeloquentLogo" class="h-16 w-auto">
+                    <img src="/logo.svg" alt="VeloquentLogo" class="h-16 w-auto">
                 </div>
             </a>
         </div>
-        
+
         <!-- Search Box -->
         <div class="p-8 border-b border-black/5 bg-white">
             <form action="{{ route('docs.search') }}" method="GET" class="relative">
                 <input type="text" name="q" value="{{ $search_query ?? '' }}" placeholder="SEARCH DOCS..." 
                     class="w-full px-6 py-4 bg-slate-50 border-2 border-black/10 text-black font-black uppercase tracking-tighter placeholder-black/20 focus:border-blue-500 focus:bg-white transition-all outline-none">
+                @if(isset($version))
+                    <input type="hidden" name="version" value="{{ $version }}">
+                @endif
                 <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 font-black text-black/30 hover:text-blue-600 transition-colors">↵</button>
             </form>
         </div>
 
         <nav class="flex flex-col pb-20">
-            @foreach($sidebarCategories as $categoryKey => $category)
-                <div class="sidebar-category-title">
-                    {{ $category['title'] }}
-                </div>
-                <div class="flex flex-col">
-                    @foreach($category['files'] as $doc)
-                        @php $isActive = ($activeFile ?? '') === $doc['path']; @endphp
-                        <a href="/{{ config('docs.path', 'docs') }}/{{ $doc['path'] }}" class="sidebar-link {{ $isActive ? 'active' : '' }}">
-                            {{ $doc['title'] }}
-                        </a>
-                    @endforeach
-                </div>
-            @endforeach
+            @if(isset($sidebarCategories) && $sidebarCategories->isNotEmpty())
+                @foreach($sidebarCategories as $categoryKey => $category)
+                    <div class="sidebar-category-title">
+                        {{ $category['title'] }}
+                    </div>
+                    <div class="flex flex-col">
+                        @foreach($category['files'] as $doc)
+                            @php $isActive = ($activeFile ?? '') === $doc['path']; @endphp
+                            <a href="/{{ config('docs.path', 'docs') }}/{{ $version ?? 'unknown' }}/{{ $doc['path'] }}" class="sidebar-link {{ $isActive ? 'active' : '' }}">
+                                {{ $doc['title'] }}
+                            </a>
+                        @endforeach
+                    </div>
+                @endforeach
+            @else
+                <!-- Sidebar is empty or not set -->
+            @endif
         </nav>
     </aside>
 
     <!-- Main Content -->
     <main class="grow p-8 md:p-24 overflow-x-hidden">
         <div class="max-w-4xl mx-auto">
-            <div class="mb-20 flex items-center gap-8">
-                <div class="bg-blue-500 text-white px-6 py-3 font-black uppercase tracking-widest border-4 border-black">{{ config('velo.version', '1.0.0') }} DOC_TYPE: {{ isset($search_results) ? 'SEARCH_QUERY' : 'SYSTEM_REFERENCE' }}</div>
-                <div class="h-2 bg-black grow"></div>
+            <div class="mb-20 flex items-center gap-8 justify-between">
+                <div class="flex items-center gap-8 flex-1">
+                    <div class="bg-blue-500 text-white px-6 py-3 font-black uppercase tracking-widest border-4 border-black">{{ config('velo.version', '1.0.0') }} DOC_TYPE: {{ isset($search_results) ? 'SEARCH_QUERY' : 'SYSTEM_REFERENCE' }}</div>
+                    <div class="h-2 bg-black grow"></div>
+                </div>
+                @if(isset($version))
+                    <x-version-switcher :availableVersions="$availableVersions" :version="$version" :headingAnchor="$headingAnchor ?? ''" :currentPath="$currentPath ?? ''" />
+                @endif
             </div>
 
             <div class="content-area">
@@ -120,10 +133,10 @@
                     
                     <div class="space-y-8">
                         @foreach($search_results as $result)
-                            <div class="bg-white p-10 border-8 border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] -rotate-1 hover:rotate-0 transition-transform cursor-pointer" onclick="window.location='/{{ config('docs.path', 'docs') }}/{{ $result['path'] }}'">
+                            <div class="bg-white p-10 border-8 border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] -rotate-1 hover:rotate-0 transition-transform cursor-pointer" onclick="window.location='/{{ config('docs.path', 'docs') }}/{{ $result['version'] }}/{{ $result['path'] }}'">
                                 <h2 class="text-3xl font-black mb-4 italic !mt-0 !border-0 !p-0 underline">{{ $result['title'] }}</h2>
                                 <p class="text-xl font-medium mb-6 leading-relaxed">{!! $result['snippet'] !!}</p>
-                                <a href="/{{ config('docs.path', 'docs') }}/{{ $result['path'] }}" class="text-blue-600 font-black uppercase tracking-widest border-b-4 border-blue-600 hover:bg-blue-600 hover:text-white transition-all">View Document →</a>
+                                <a href="/{{ config('docs.path', 'docs') }}/{{ $result['version'] }}/{{ $result['path'] }}" class="text-blue-600 font-black uppercase tracking-widest border-b-4 border-blue-600 hover:bg-blue-600 hover:text-white transition-all">View Document →</a>
                             </div>
                         @endforeach
                     </div>
@@ -142,8 +155,11 @@
             <!-- Footer -->
             <footer class="mt-40 pt-20 border-t-8 border-black flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
                 <div>
-                    <img src="/docs/logo.svg" alt="Velo" class="h-8 mb-4">
+                    <img src="/logo.svg" alt="Velo" class="h-8 mb-4">
                     <p class="font-black uppercase tracking-tighter">Open Source Backend</p>
+                    @if(isset($version))
+                        <p class="text-sm font-bold text-black/50 mt-2">Viewing docs for version: {{ app(\App\Docs\DocsManager::class)->getVersionLabel($version) }}</p>
+                    @endif
                 </div>
                 <div class="flex gap-8">
                     <a href="https://github.com/kevintherm/veloquent" target="_blank" class="bg-black text-white px-8 py-4 font-black border-4 border-black hover:bg-white hover:text-black transition-all">GITHUB</a>
@@ -175,6 +191,16 @@
                     menuToggle.textContent = sidebar.classList.contains('hidden') ? 'MENU' : 'CLOSE';
                 });
             }
+
+            // Heading anchor scroll
+            @if(isset($headingAnchor) && $headingAnchor)
+                const anchor = document.getElementById('{{ $headingAnchor }}');
+                if (anchor) {
+                    setTimeout(() => {
+                        anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+            @endif
         });
     </script>
 </body>

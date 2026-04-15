@@ -6,7 +6,6 @@ use App\Docs\DocsManager;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class DocumentationServiceProvider extends ServiceProvider
@@ -26,10 +25,6 @@ class DocumentationServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('docs.viewer', function ($view) {
-            $view->with('sidebarCategories', app(DocsManager::class)->getSidebar());
-        });
-
         RateLimiter::for('search', function (Request $request) {
             return [
                 Limit::perMinute(30)->by($request->ip()),
