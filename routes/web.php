@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
+
+Route::get('faq', FaqController::class)->name('faq');
 
 Route::get('sitemap.xml', SitemapController::class)->name('seo.sitemap');
 

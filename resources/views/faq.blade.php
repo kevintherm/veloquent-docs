@@ -20,7 +20,8 @@
     </section>
 
     <section class="mb-32 relative">
-        <div class="bg-white text-black p-12 sm:p-20 md:p-24 brutalist-border brutalist-shadow text-center relative overflow-hidden">
+        <div
+            class="bg-white text-black p-12 sm:p-20 md:p-24 brutalist-border brutalist-shadow text-center relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-full ocean-texture opacity-10"></div>
             <div class="relative z-10">
                 <h2 class="text-4xl sm:text-6xl font-black mb-10 uppercase tracking-tighter">
@@ -31,7 +32,7 @@
                 </p>
                 <div class="flex justify-center">
                     <a href="https://github.com/kevintherm/veloquent/issues" target="_blank"
-                       class="brutalist-button bg-white text-black border-black text-xl px-12 py-5">
+                        class="brutalist-button bg-white text-black border-black text-xl px-12 py-5">
                         OPEN AN ISSUE
                     </a>
                 </div>
