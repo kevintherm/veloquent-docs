@@ -1,5 +1,6 @@
 <?php
 
+use App\Docs\DocsManager;
 use App\Http\Controllers\DocumentationController;
 use App\Models\Doc;
 use Illuminate\Support\Facades\Route;
@@ -8,10 +9,8 @@ $path = config('docs.path', 'docs');
 
 Route::prefix($path)->group(function () use ($path) {
     // Home redirect - goes to latest version
-    Route::get('/', function () use ($path) {
-        $latestVersion = Doc::distinct('version')
-            ->orderByDesc('version')
-            ->first()?->version;
+    Route::get('/', function (DocsManager $docsManager) use ($path) {
+        $latestVersion = $docsManager->getAvailableVersions()->first();
 
         if (! $latestVersion) {
             abort(404);
@@ -25,17 +24,20 @@ Route::prefix($path)->group(function () use ($path) {
         ->name('docs.search')
         ->middleware('throttle:search');
 
-    Route::get('/{section}', function ($section) use ($path) {
-        $match = Doc::distinct('version')
-            ->orderByDesc('version')
-            ->where('slug', 'like', "%{$section}%")
-            ->first();
+    Route::get('/{section}', function ($section, DocsManager $docsManager) use ($path) {
+        $versions = $docsManager->getAvailableVersions();
 
-        if (! $match) {
-            return redirect()->back();
+        foreach ($versions as $version) {
+            $match = Doc::forVersion($version)
+                ->where('slug', 'like', "%{$section}%")
+                ->first();
+
+            if ($match) {
+                return redirect("{$path}/{$match->slug}");
+            }
         }
 
-        return redirect("{$path}/{$match->slug}");
+        return redirect()->back();
     })->where('section', '^(?!search$)[a-z\-]+$')->name('docs.shortcut');
 
     // Versioned docs routes
