@@ -246,7 +246,7 @@
         </div>
 
         <div class="flex justify-center">
-            <a href="http://127.0.0.1:8001/docs/quickstart#content-client-setup"
+            <a href="{{ url('/docs/quickstart#content-client-setup') }}"
                 class="brutalist-button text-2xl sm:text-3xl md:text-4xl px-8 sm:px-12 md:px-16 py-4 sm:py-6 md:py-8 bg-blue-500 text-white border-black">
                 SDK SETUP &rarr;
             </a>
