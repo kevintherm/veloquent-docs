@@ -88,7 +88,6 @@
             padding: 0.75rem 1.5rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: -0.05em;
             transition: all 0.1s;
             background-color: #fff;
             display: inline-block;

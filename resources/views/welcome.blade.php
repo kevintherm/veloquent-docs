@@ -1,4 +1,41 @@
 <x-app-layout>
+    <style>
+        .brutalist-card-dark {
+            color: #fff;
+            border: 2px solid #fff;
+            box-shadow: 8px 8px 0px 0px #000;
+        }
+
+        @media (min-width: 768px) {
+            .brutalist-card-dark {
+                border-width: 4px;
+                box-shadow: 16px 16px 0px 0px #000;
+            }
+        }
+
+        .showcase-button {
+            background: #fff !important;
+            color: #000 !important;
+            border: 2px solid #000 !important;
+            box-shadow: none !important;
+            padding: 0.75rem 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        @media (min-width: 768px) {
+            .showcase-button {
+                border-width: 4px !important;
+            }
+        }
+
+        .showcase-button:hover {
+            background: #3b82f6 !important;
+            color: #fff !important;
+        }
+    </style>
     <section class="mb-48 relative pt-20">
         <div class="relative z-10 text-center max-w-5xl mx-auto mb-20">
             <h1
@@ -197,6 +234,75 @@
                     Keep full control of your infrastructure. Run your own BaaS on affordable shared hosting or a full
                     VPS—anywhere PHP runs.
                 </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-56 relative">
+        <div class="flex items-center gap-4 mb-12 sm:mb-20">
+            <h2 class="text-6xl sm:text-8xl md:text-9xl font-black uppercase tracking-tighter">SHOWCASE</h2>
+            <div class="h-2 bg-black grow"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12">
+            <!-- Chatty -->
+            <div class="brutalist-card-dark bg-accent-content p-8">
+                <div class="flex items-center mb-2 h-16">
+                    <img src="https://raw.githubusercontent.com/kevintherm/chatty/refs/heads/main/src/assets/logo.svg"
+                        alt="Chatty" class="h-full w-auto">
+                </div>
+                <div class="mono text-[10px] font-bold uppercase mb-6 opacity-60">Chatty</div>
+                <p class="text-lg font-bold leading-tight opacity-80 mb-10 min-h-[3rem]">
+                    Direct messaging with E2EE implemented.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="https://kevintherm.github.io/chatty" target="_blank"
+                        class="showcase-button text-xs px-4 py-2">
+                        View Demo
+                    </a>
+                    <a href="https://github.com/kevintherm/chatty" target="_blank"
+                        class="showcase-button text-xs px-4 py-2">
+                        GitHub
+                    </a>
+                </div>
+            </div>
+
+            <!-- Monolog -->
+            <div class="brutalist-card-dark bg-accent-content p-8">
+                <div class="flex items-center mb-2 h-16">
+                    <img src="https://raw.githubusercontent.com/kevintherm/monolog/refs/heads/main/assets/logo.svg"
+                        alt="Monolog" class="h-full w-auto rounded-md">
+                </div>
+                <div class="mono text-[10px] font-bold uppercase mb-6 opacity-60">Monolog</div>
+                <p class="text-lg font-bold leading-tight opacity-80 mb-10 min-h-[3rem]">
+                    Opinionated daily workout tracker.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="https://kevintherm.github.io/monolog" target="_blank"
+                        class="showcase-button text-xs px-4 py-2">
+                        View Demo
+                    </a>
+                    <a href="https://github.com/kevintherm/monolog" target="_blank"
+                        class="showcase-button text-xs px-4 py-2">
+                        GitHub
+                    </a>
+                </div>
+            </div>
+
+            <!-- Demo -->
+            <div class="brutalist-card-dark bg-accent-content p-8">
+                <div class="flex items-center mb-2 h-16">
+                    <img src="{{ asset('logo.svg') }}" alt="Veloquent" class="h-full w-auto">
+                </div>
+                <div class="mono text-[10px] font-bold uppercase mb-6 opacity-40">Demo</div>
+                <p class="text-lg font-bold leading-tight mb-10 opacity-90 min-h-[3rem]">
+                    Veloquent dashboard demo server.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="https://demo.velophp.com" target="_blank" class="showcase-button text-xs px-4 py-2">
+                        View Demo
+                    </a>
+                </div>
             </div>
         </div>
     </section>
