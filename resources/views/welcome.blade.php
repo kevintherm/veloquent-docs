@@ -253,7 +253,7 @@
                 </div>
                 <div class="mono text-[10px] font-bold uppercase mb-6 opacity-60">Chatty</div>
                 <p class="text-lg font-bold leading-tight opacity-80 mb-10 min-h-[3rem]">
-                    Direct messaging with E2EE implemented.
+                    Direct messaging web app with E2EE implemented.
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <a href="https://kevintherm.github.io/chatty" target="_blank"
@@ -275,7 +275,7 @@
                 </div>
                 <div class="mono text-[10px] font-bold uppercase mb-6 opacity-60">Monolog</div>
                 <p class="text-lg font-bold leading-tight opacity-80 mb-10 min-h-[3rem]">
-                    Opinionated daily workout tracker.
+                    Opinionated daily workout tracker built with Flutter.
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <a href="https://kevintherm.github.io/monolog" target="_blank"
