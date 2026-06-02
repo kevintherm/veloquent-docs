@@ -64,7 +64,7 @@ class DocsManager
 
         // Separate releases (numeric) from dev (dev-*)
         $releases = $versions->filter(fn ($v) => ! str_starts_with($v, 'dev-'))
-            ->sort()
+            ->sort(fn ($a, $b) => version_compare($a, $b))
             ->reverse()
             ->values();
 

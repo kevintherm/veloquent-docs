@@ -1,5 +1,6 @@
 <?php
 
+use App\Docs\DocsManager;
 use App\Models\Doc;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -64,4 +65,33 @@ test('sitemap.xml returns valid xml and contains docs', function () {
         ->assertSee('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', false)
         ->assertSee('http://localhost')
         ->assertSee('http://localhost/docs/2.x/test-doc');
+});
+
+test('latest stable version is calculated correctly with double digit versions', function () {
+    Doc::create([
+        'version' => '1.x',
+        'slug' => '1.x/test-doc',
+        'title' => 'Test Document v1',
+        'content' => 'Content v1',
+        'headings' => [],
+    ]);
+
+    Doc::create([
+        'version' => '2.x',
+        'slug' => '2.x/test-doc',
+        'title' => 'Test Document v2',
+        'content' => 'Content v2',
+        'headings' => [],
+    ]);
+
+    Doc::create([
+        'version' => '10.x',
+        'slug' => '10.x/test-doc',
+        'title' => 'Test Document v10',
+        'content' => 'Content v10',
+        'headings' => [],
+    ]);
+
+    $docsManager = app(DocsManager::class);
+    expect($docsManager->getLatestStableVersion())->toBe('10.x');
 });
