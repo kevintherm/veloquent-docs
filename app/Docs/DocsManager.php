@@ -106,7 +106,7 @@ class DocsManager
             'database',
             'api-documentation',
             'realtime',
-            'deploying',
+            'deployments',
             'tenants',
             'changelog',
         ];
